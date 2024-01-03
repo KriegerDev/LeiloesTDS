@@ -43,7 +43,6 @@ public class ProdutosDAO {
         }
     }
     
-    /*
     public ArrayList<ProdutosDTO> listarProdutos(){
         this.listagem.clear();
         try
@@ -69,6 +68,5 @@ public class ProdutosDAO {
             return null;
         }
     } 
-    */
 }
 
