@@ -43,6 +43,7 @@ public class ProdutosDAO {
         }
     }
     
+    /*
     public ArrayList<ProdutosDTO> listarProdutos(){
         this.listagem.clear();
         try
@@ -67,6 +68,7 @@ public class ProdutosDAO {
             JOptionPane.showMessageDialog(null, "erro ao se conectar ao banco de dados.");
             return null;
         }
-    }  
+    } 
+    */
 }
 
