@@ -34,6 +34,7 @@ public class ProdutosDAO {
             
             this.prep.executeUpdate();
             JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!");
+            this.prep.close();
             this.conn.close();
         }
         catch(SQLException e)
@@ -59,6 +60,7 @@ public class ProdutosDAO {
                 
                 this.listagem.add(new ProdutosDTO(_id, _nome, _valor, _status));
             }
+            this.prep.close();
             this.conn.close();
             return listagem;
         }
@@ -67,6 +69,60 @@ public class ProdutosDAO {
             JOptionPane.showMessageDialog(null, "erro ao se conectar ao banco de dados.");
             return null;
         }
-    } 
+    }
+    
+    public boolean atualizarProduto(final int _id)
+    {
+        if(this.listagem == null)
+        {
+            return false;
+        }
+        
+        for(ProdutosDTO produto : this.listagem)
+        {
+            if(produto.getId() == _id)
+            {
+                try
+                {
+                    this.conn = new conectaDAO().connectDB();
+                    this.prep = this.conn.prepareStatement("UPDATE `produtos` SET `nome`=?,`valor`=?,`status`=? WHERE `id`=?;");
+                    this.prep.setString(1, produto.getNome());
+                    this.prep.setInt(2, produto.getValor());
+                    this.prep.setString(3, produto.getStatus());
+                    this.prep.setInt(4, produto.getId());
+                    this.prep.executeUpdate();
+                    this.prep.close();
+                    this.conn.close();
+                    return true;
+                }
+                catch(SQLException e)
+                {
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+    
+    
+    public int venderProduto(final int _id)
+    {
+        this.listagem = this.listarProdutos();
+        if(this.listagem == null)
+        {
+            return 1;
+        }
+        
+        for(ProdutosDTO produto : this.listagem)
+        {
+            if(produto.getId() == _id)
+            {
+                produto.setStatus("Vendido");
+                this.atualizarProduto(_id);
+                return 0;
+            }
+        }
+        return 2;
+    }
 }
 
